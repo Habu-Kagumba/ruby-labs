@@ -24,8 +24,3 @@ def caesar_cipher(string, pos)
   encryptor
 end
 
-# Testing this out
-p caesar_cipher('What a string', 5)
-p caesar_cipher('context are the default aliases!!', 7)
-p caesar_cipher('from spec/spec_helper.rb', 25)
-
