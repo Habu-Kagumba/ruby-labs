@@ -24,10 +24,13 @@ module Enumerable
   end
 
   def my_select
-    # result = []
-    # self.my_each { |e| result << e if yield(e) }
-    # result
-    [].tap { |out| my_each { |e| out << e if yield(e) } }
+    [].tap { |result| my_each { |e| result << e if yield(e) } }
+  end
+
+  def my_all?
+    result = []
+    self.my_select { |e| result << e if yield(e) }
+    result.length == self.length ? true : false
   end
 
 end
