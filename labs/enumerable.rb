@@ -33,4 +33,8 @@ module Enumerable
     result.length == self.length ? true : false
   end
 
+  def my_none?
+    [].tap { |result| my_select { |e| result << e if yield(e) } }.length == 0
+  end
+
 end
