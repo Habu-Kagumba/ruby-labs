@@ -4,6 +4,7 @@
 # The Caesar's Cipher. Shift letter defined times to encrypt strings.
 
 def caesar_cipher(string, pos)
+  pos %= 26
   ascii = string.chars.map(&:ord)
 
   encryptor = ascii.map do |a|
