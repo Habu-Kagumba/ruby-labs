@@ -28,13 +28,37 @@ module Enumerable
   end
 
   def my_all?
-    result = []
-    self.my_select { |e| result << e if yield(e) }
-    result.length == self.length ? true : false
+    [].tap do
+      |result| my_select do
+        |e| result << e if yield(e)
+      end
+    end.length == self.length ? true : false
+  end
+
+  def my_any?
+    [].tap do
+      |result| my_select do
+        |e| result << e if yield(e)
+      end
+    end.length > 0 ? true : false
   end
 
   def my_none?
     [].tap { |result| my_select { |e| result << e if yield(e) } }.length == 0
+  end
+
+  def my_count(num=nil)
+    if num
+      [].tap { |result| my_select { |e| result << e if e == num } }.length
+    elsif block_given?
+      [].tap { |result| my_select { |e| result << e if yield(e) } }.length
+    else
+      self.length
+    end
+  end
+
+  def my_map
+    [].tap { |result| my_each { |e| result << yield(e) } }
   end
 
 end
