@@ -28,17 +28,17 @@ module Enumerable
   end
 
   def my_all?
-    [].tap do
-      |result| my_select do
-        |e| result << e if yield(e)
+    [].tap do |result|
+      my_select do |e|
+        result << e if yield(e)
       end
     end.length == self.length ? true : false
   end
 
   def my_any?
-    [].tap do
-      |result| my_select do
-        |e| result << e if yield(e)
+    [].tap do |result|
+      my_select do |e|
+        result << e if yield(e)
       end
     end.length > 0 ? true : false
   end
