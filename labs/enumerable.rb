@@ -61,4 +61,18 @@ module Enumerable
     [].tap { |result| my_each { |e| result << yield(e) } }
   end
 
+  def my_inject(initial=nil)
+    if nil.equal? initial
+      initial = self.first
+    else
+      self.unshift(initial)
+    end
+
+    self.my_each do |e|
+      initial = yield(initial, e)
+    end
+
+    initial
+  end
+
 end
