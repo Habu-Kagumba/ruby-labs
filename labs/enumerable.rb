@@ -75,4 +75,26 @@ module Enumerable
     initial
   end
 
+  def my_map_with_proc(&code)
+    [].tap { |result| my_each { |e| result << code.call(e) } }
+  end
+
+  def my_map_with_proc_block(code)
+    if block_given?
+      result_proc = []
+      self.my_each do |e|
+        result_proc << code.call(e)
+      end
+
+      result_proc_block = []
+      result_proc.my_each do |p|
+        result_proc_block << yield(p)
+      end
+
+      result_proc_block
+    else
+      [].tap { |result| my_each { |e| result << code.call(e) } }
+    end
+  end
+
 end
