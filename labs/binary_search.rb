@@ -15,7 +15,7 @@ class Array
     10.step(1000,10).to_a
   end
 
-	def search(guess, imin=0, imax=nil, count=0)
+  def search(guess, imin=0, imax=nil, count=0)
     imax ||= self.length - 1
 
     result = {
@@ -52,6 +52,6 @@ class Array
     result[:index] = -1
     result[:count] = count
     return result
-	end
+  end
 
 end
