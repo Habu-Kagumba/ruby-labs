@@ -15,24 +15,23 @@ class Array
     10.step(1000,10).to_a
   end
 
-  def search(guess, imin=0, imax=nil, count=0)
-    # init imax - index of last element in array
+	def search(guess, imin=0, imax=nil, count=0)
     imax ||= self.length - 1
-    # output if found
+
     result = {
       :length => self.length
     }
-    # first check if at the first or last index
-    if self.first == guess
-      result[:index] = 0
-      result[:count] = count
-      return result
-    elsif self.last == guess
-      result[:index] = imax
-      result[:count] = count
-      return result
-    else
-      while imin <= imax
+
+    while imin <= imax do
+      if self[imax] == guess
+        result[:index] = imax
+        result[:count] = count
+        return result
+      elsif self[imin] == guess
+        result[:index] = imin
+        result[:count] = count
+        return result
+      else
         mid = imin + ((imax - imin) / 2)
         if self[mid] == guess
           result[:index] = mid
@@ -40,17 +39,19 @@ class Array
           return result
         elsif self[mid] < guess
           imin = mid + 1
+          imax -= 1
           count += 1
-        elsif self[mid] > guess
+        else
           imax = mid - 1
+          imin += 1
           count += 1
         end
       end
-      # Not found
-      result[:index] = -1
-      result[:count] = count
-      return result
     end
-  end
+
+    result[:index] = -1
+    result[:count] = count
+    return result
+	end
 
 end
