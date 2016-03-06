@@ -19,6 +19,7 @@
 require_relative '../labs/caesar-cipher'
 require_relative '../labs/enumerable'
 require_relative '../labs/binary_search'
+require_relative '../labs/linked_list'
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
