@@ -24,37 +24,31 @@ module Enumerable
   end
 
   def my_select
-    [].tap { |result| my_each { |e| result << e if yield(e) } }
+    [].tap { |result| my_each { |e| result << e if yield e } }
   end
 
   def my_all?
-    [].tap do |result|
-      my_select do |e|
-        result << e if yield(e)
-      end
-    end.length == self.length ? true : false
+    self.my_each {|e| return false unless yield e}
   end
 
   def my_any?
-    [].tap do |result|
-      my_select do |e|
-        result << e if yield(e)
-      end
-    end.length > 0 ? true : false
+    self.my_each {|e| return true if yield e}
   end
 
   def my_none?
-    [].tap { |result| my_select { |e| result << e if yield(e) } }.length == 0
+    self.my_each {|e| return true unless yield e}
   end
 
   def my_count(num=nil)
+    count = 0
     if num
-      [].tap { |result| my_select { |e| result << e if e == num } }.length
+      self.my_each {|e| count += 1 if e == num}
     elsif block_given?
-      [].tap { |result| my_select { |e| result << e if yield(e) } }.length
+      self.my_each {|e| count += yield(e) ? 1 : 0}
     else
-      self.length
+      return self.size
     end
+    count
   end
 
   def my_map
@@ -62,7 +56,7 @@ module Enumerable
   end
 
   def my_inject(initial=nil)
-    if nil.equal? initial
+    if initial.nil?
       initial = self.first
     else
       self.unshift(initial)
@@ -81,17 +75,12 @@ module Enumerable
 
   def my_map_with_proc_block(code)
     if block_given?
-      result_proc = []
-      self.my_each do |e|
-        result_proc << code.call(e)
+      [].tap do |result|
+        my_each do |e|
+          result_proc = code.call(e)
+          result << yield(result_proc)
+        end
       end
-
-      result_proc_block = []
-      result_proc.my_each do |p|
-        result_proc_block << yield(p)
-      end
-
-      result_proc_block
     else
       [].tap { |result| my_each { |e| result << code.call(e) } }
     end
